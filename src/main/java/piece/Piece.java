@@ -14,10 +14,10 @@ public class Piece extends Rectangle {
     private Image image;
 
     public Piece(int row,int col,Color color,Image image){
+        super(30+DIMENSION*col,30+DIMENSION*row, DIMENSION,DIMENSION);
         this.color=color;
         this.row=row;
         this.col=col;
-        this.image=image;
     }
 
     public int getRow(){
