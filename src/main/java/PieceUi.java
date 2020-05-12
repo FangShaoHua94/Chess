@@ -24,6 +24,8 @@ public class PieceUi extends StackPane {
         }
         this.piece=piece;
 //        pieceHolder.setPreserveRatio(true);
+
+        pieceHolder.setStyle("-fx-background-color:transparent");
         pieceHolder.setImage(piece.getImage());
 
     }

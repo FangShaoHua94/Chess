@@ -2,7 +2,6 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import piece.Piece;
 
 import static piece.Pawn.BLACK_PAWN;
@@ -22,7 +21,7 @@ public class Board extends AnchorPane {
     @FXML
     public void initialize(){
         pieces=new Piece[DIMENSION][DIMENSION];
-//        setUpPiece();
+        setUpPiece();
     }
 
     private void setUpPiece(){

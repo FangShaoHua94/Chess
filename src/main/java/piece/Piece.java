@@ -3,11 +3,7 @@ package piece;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-
-import java.io.IOException;
 
 public class Piece {
 
