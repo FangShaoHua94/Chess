@@ -12,8 +12,8 @@ public class Chess extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Chess.class.getResource("/view/Board.fxml"));
             AnchorPane root = fxmlLoader.load();
-            Board board = new Board();
-            root.getChildren().add(board);
+//            Board board = new Board();
+//            root.getChildren().add(board);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Chess");

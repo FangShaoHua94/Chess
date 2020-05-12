@@ -1,25 +1,26 @@
 package piece;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class Piece extends StackPane {
+import java.io.IOException;
+
+public class Piece {
 
     private Color color;
     private int row;
     private int col;
-
-    @FXML
-    private ImageView pieceHolder;
+    private Image image;
 
     public Piece(Image image,Color color,int row,int col){
-        pieceHolder.setImage(image);
         this.color=color;
         this.row=row;
         this.col=col;
+        this.image=image;
     }
 
     public Color getColor(){
@@ -32,6 +33,10 @@ public class Piece extends StackPane {
 
     public int getCol(){
         return col;
+    }
+
+    public Image getImage(){
+        return image;
     }
 
 }

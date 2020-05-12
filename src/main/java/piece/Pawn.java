@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 import static java.util.Objects.requireNonNull;
 
-public class Pawn extends Piece{
+public class Pawn extends Piece {
 
     public static final String BLACK_PAWN="/images/blackPawn.png";
     private static final String WHITE_PAWN="/images/whitePawn.png";
