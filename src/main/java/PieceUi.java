@@ -13,7 +13,7 @@ public class PieceUi extends StackPane {
     @FXML
     private ImageView pieceHolder;
 
-    public PieceUi(Piece piece){
+    public PieceUi(Piece piece) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(PieceUi.class.getResource("/view/Piece.fxml"));
             fxmlLoader.setController(this);
@@ -22,12 +22,8 @@ public class PieceUi extends StackPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.piece=piece;
-//        pieceHolder.setPreserveRatio(true);
-
-        pieceHolder.setStyle("-fx-background-color:transparent");
+        this.piece = piece;
         pieceHolder.setImage(piece.getImage());
-
     }
 
 }
