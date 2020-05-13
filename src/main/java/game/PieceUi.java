@@ -1,7 +1,6 @@
 package game;
 
 import game.piece.Piece;
-import game.piece.Position;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -48,7 +47,7 @@ public class PieceUi extends StackPane {
             System.out.println(board.isSelected() + " Select  ");
             board.select(position.getRow(), position.getCol());
             isSelect = true;
-//            board.showValidMove(game.piece.validMove());
+            board.showValidMove(piece.validMove(),piece.getColor());
         }
     }
 

@@ -8,6 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.lang.ref.PhantomReference;
+import java.util.ArrayList;
+
 import static game.piece.Bishop.spawnBlackBishop;
 import static game.piece.Bishop.spawnWhiteBishop;
 import static game.piece.King.spawnBlackKing;
@@ -26,6 +29,9 @@ public class Board extends AnchorPane {
     public static final int DIMENSION = 8;
     private static final Color PALE_BASE = Color.web("#e6ccab");
     private static final Color DARK_BASE = Color.web("#9d571b");
+    private static final Color SELECTED_BASE = Color.SKYBLUE;
+    private static final Color VALID_KILL_BASE = Color.RED;
+    private static final Color VALID_MOVE_BASE = Color.GREEN;
     private static final int BORDER_WIDTH = 30;
     private Piece[][] board;
     private Rectangle[][] tiles;
@@ -102,7 +108,7 @@ public class Board extends AnchorPane {
 
     public void select(int row, int col) {
         selected = true;
-        tiles[row][col].setFill(Color.SKYBLUE);
+        tiles[row][col].setFill(SELECTED_BASE);
     }
 
     public void unselect(int row, int col) {
@@ -118,8 +124,27 @@ public class Board extends AnchorPane {
         return selected;
     }
 
-    public void showValidMove() {
+    public void showValidMove(ArrayList<Position> validMove,Color color) {
+        for(Position position:validMove){
+            // valid move on empty tile
+            if(getPiece(position)==null){
+                getRectangle(position).setFill(VALID_MOVE_BASE);
+            }
 
+            // valid move on opposite color tile
+            if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
+                getRectangle(position).setFill(VALID_KILL_BASE);
+            }
+        }
     }
+
+    private Piece getPiece(Position position){
+        return board[position.getRow()][position.getCol()];
+    }
+
+    private Rectangle getRectangle(Position position){
+        return tiles[position.getRow()][position.getCol()];
+    }
+
 
 }

@@ -1,9 +1,12 @@
 package game.piece;
 
+import game.Position;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+
+import static game.Position.withinBoundary;
 
 public class Pawn extends Piece {
 
@@ -26,23 +29,39 @@ public class Pawn extends Piece {
 
     @Override
     public ArrayList<Position> validMove() {
-        ArrayList<Position> positions = new ArrayList<>();
         if (getColor().equals(Color.BLACK)) {
-
-        } else if (getColor().equals(Color.WHITE)) {
-
+            return blackMove();
+        } else {
+           return whiteMove();
         }
-
-        return null;
     }
 
-    public void firstMove() {
-        isFirstMove = true;
+    @Override
+    public void move(Position position) {
+        isFirstMove=false;
+        super.move(position);
     }
 
-    public boolean isFirstMove() {
-        return isFirstMove;
+    private ArrayList<Position> blackMove(){
+        ArrayList<Position> positions = new ArrayList<>();
+        if(withinBoundary(getPosition().down())){
+            positions.add(getPosition().down());
+        }
+        if(isFirstMove && withinBoundary(getPosition().down().down())){
+            positions.add(getPosition().down().down());
+        }
+        return positions;
     }
 
+    private ArrayList<Position> whiteMove(){
+        ArrayList<Position> positions = new ArrayList<>();
+        if(withinBoundary(getPosition().up())){
+            positions.add(getPosition().up());
+        }
+        if(isFirstMove && withinBoundary(getPosition().up().up())){
+            positions.add(getPosition().up().up());
+        }
+        return positions;
+    }
 
 }

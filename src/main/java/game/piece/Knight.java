@@ -1,5 +1,6 @@
 package game.piece;
 
+import game.Position;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -26,5 +27,6 @@ public class Knight extends Piece {
     public ArrayList<Position> validMove() {
         return null;
     }
+
 
 }

@@ -1,11 +1,10 @@
 package game.piece;
 
+import game.Position;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-
-import static game.Board.DIMENSION;
 
 public abstract class Piece {
 
@@ -17,10 +16,6 @@ public abstract class Piece {
         this.color = color;
         this.position = position;
         this.image = image;
-    }
-
-    public static boolean withinBoundary(int row, int col) {
-        return row >= 0 && row < DIMENSION && col >= 0 && col < DIMENSION;
     }
 
     public Color getColor() {
@@ -36,6 +31,14 @@ public abstract class Piece {
     }
 
     public abstract ArrayList<Position> validMove();
+
+    public void move(Position position){
+        this.position=position;
+    };
+
+    public boolean sameColor(Color color){
+        return color.equals(color);
+    }
 
     @Override
     public String toString() {
