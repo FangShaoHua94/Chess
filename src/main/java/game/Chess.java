@@ -1,3 +1,5 @@
+package game;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +16,7 @@ public class Chess extends Application {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Chess");
+            primaryStage.setTitle("game.Chess");
             primaryStage.setResizable(false);
             primaryStage.show();
         } catch (IOException e) {
