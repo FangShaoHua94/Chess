@@ -112,12 +112,18 @@ public class Board extends AnchorPane {
         }
     }
 
-    public void select(){
+    public void select(int row,int col){
         selected=true;
+        tiles[row][col].setFill(Color.SKYBLUE);
     }
 
-    public void unselect(){
+    public void unselect(int row,int col){
         selected=false;
+        if((row+col)%2==0){
+            tiles[row][col].setFill(Color.web("#e6ccab"));
+        }else{
+            tiles[row][col].setFill(Color.web("#9d571b"));
+        }
     }
 
     public boolean isSelected(){

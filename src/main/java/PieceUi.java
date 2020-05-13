@@ -29,6 +29,8 @@ public class PieceUi extends StackPane {
         }
         this.board=board;
         this.piece = piece;
+        this.row=row;
+        this.col=col;
         pieceHolder.setImage(piece.getImage());
     }
 
@@ -40,11 +42,11 @@ public class PieceUi extends StackPane {
 
         if(board.isSelected()){
             System.out.println(board.isSelected()+"   UnSelect");
-            board.unselect();
+            board.unselect(row,col);
             isSelect=false;
         }else{
             System.out.println(board.isSelected()+" Select  ");
-            board.select();
+            board.select(row,col);
             isSelect=true;
         }
     }
