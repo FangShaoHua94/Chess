@@ -6,11 +6,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 
+import static game.Tile.spawnDarkTile;
+import static game.Tile.spawnPaleTile;
 import static game.piece.Bishop.spawnBlackBishop;
 import static game.piece.Bishop.spawnWhiteBishop;
 import static game.piece.King.spawnBlackKing;
@@ -27,15 +27,10 @@ import static game.piece.Rook.spawnWhiteRook;
 public class Board extends AnchorPane {
 
     public static final int DIMENSION = 8;
-    private static final Color PALE_BASE = Color.web("#e6ccab");
-    private static final Color DARK_BASE = Color.web("#9d571b");
-    private static final Color SELECTED_BASE = Color.SKYBLUE;
-    private static final Color VALID_KILL_BASE = Color.RED;
-    private static final Color VALID_MOVE_BASE = Color.GREEN;
-    private static final int BORDER_WIDTH = 30;
     private Piece[][] board;
-    private Rectangle[][] tiles;
+    private Tile[][] tiles;
     private boolean selected = false;
+    private ArrayList<Tile> highlightedTiles;
 
     @FXML
     private StackPane base;
@@ -46,7 +41,8 @@ public class Board extends AnchorPane {
     @FXML
     public void initialize() {
         board = new Piece[DIMENSION][DIMENSION];
-        tiles = new Rectangle[DIMENSION][DIMENSION];
+        tiles = new Tile[DIMENSION][DIMENSION];
+        highlightedTiles= new ArrayList<>();
         setUpTile();
         setUpPiece();
     }
@@ -54,11 +50,10 @@ public class Board extends AnchorPane {
     private void setUpTile() {
         for (int i = 0; i < DIMENSION; i++) {
             for (int j = 0; j < DIMENSION; j++) {
-                tiles[i][j] = new Rectangle(50, 50);
                 if ((i + j) % 2 == 0) {
-                    tiles[i][j].setFill(PALE_BASE);
+                    tiles[i][j] = spawnPaleTile();
                 } else {
-                    tiles[i][j].setFill(DARK_BASE);
+                    tiles[i][j] = spawnDarkTile();
                 }
                 grid.add(tiles[i][j], j, i);
             }
@@ -108,16 +103,14 @@ public class Board extends AnchorPane {
 
     public void select(int row, int col) {
         selected = true;
-        tiles[row][col].setFill(SELECTED_BASE);
+        tiles[row][col].setSelectedBase();
     }
 
     public void unselect(int row, int col) {
         selected = false;
-        if ((row + col) % 2 == 0) {
-            tiles[row][col].setFill(PALE_BASE);
-        } else {
-            tiles[row][col].setFill(DARK_BASE);
-        }
+        tiles[row][col].setOriginalColor();
+        highlightedTiles.forEach(Tile::setOriginalColor);
+        highlightedTiles.clear();
     }
 
     public boolean isSelected() {
@@ -126,14 +119,20 @@ public class Board extends AnchorPane {
 
     public void showValidMove(ArrayList<Position> validMove,Color color) {
         for(Position position:validMove){
+            // invalid move on friendly piece
+            if(getPiece(position)!=null && getPiece(position)!=null && getPiece(position).sameColor(color)){
+                continue;
+            }
+
+            highlightedTiles.add(getTile(position));
             // valid move on empty tile
             if(getPiece(position)==null){
-                getRectangle(position).setFill(VALID_MOVE_BASE);
+                getTile(position).setValidMoveBase();
             }
 
             // valid move on opposite color tile
             if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
-                getRectangle(position).setFill(VALID_KILL_BASE);
+                getTile(position).setValidKillBase();
             }
         }
     }
@@ -142,7 +141,7 @@ public class Board extends AnchorPane {
         return board[position.getRow()][position.getCol()];
     }
 
-    private Rectangle getRectangle(Position position){
+    private Tile getTile(Position position){
         return tiles[position.getRow()][position.getCol()];
     }
 
