@@ -1,8 +1,14 @@
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import piece.Piece;
+
+import java.io.IOException;
 
 import static piece.Bishop.BLACK_BISHOP;
 import static piece.Bishop.WHITE_BISHOP;
@@ -32,7 +38,10 @@ import static piece.Rook.spawnWhiteRook;
 public class Board extends AnchorPane {
 
     private static final int DIMENSION = 8;
+    private static final int BORDER_WIDTH=30;
     private Piece[][] board;
+    private Rectangle[][] tiles;
+    private boolean selected = false;
 
     @FXML
     private StackPane base;
@@ -43,7 +52,23 @@ public class Board extends AnchorPane {
     @FXML
     public void initialize() {
         board = new Piece[DIMENSION][DIMENSION];
+        tiles= new Rectangle[DIMENSION][DIMENSION];
+        setUpTile();
         setUpPiece();
+    }
+
+    private void setUpTile(){
+        for(int i=0;i<DIMENSION;i++){
+            for(int j=0;j<DIMENSION;j++){
+                tiles[i][j]=new Rectangle(50,50);
+                if((i+j)%2==0){
+                    tiles[i][j].setFill(Color.web("#e6ccab"));
+                }else{
+                    tiles[i][j].setFill(Color.web("#9d571b"));
+                }
+                grid.add(tiles[i][j],j,i);
+            }
+        }
     }
 
     private void setUpPiece() {
@@ -81,11 +106,22 @@ public class Board extends AnchorPane {
         for(int i=0;i<DIMENSION;i++){
             for(int j=0;j<DIMENSION;j++){
                if(i<2||i>5) {
-                   grid.add(new PieceUi(board[i][j]), j, i);
+                   grid.add(new PieceUi(i,j,this,board[i][j]), j, i);
                }
             }
         }
     }
 
+    public void select(){
+        selected=true;
+    }
+
+    public void unselect(){
+        selected=false;
+    }
+
+    public boolean isSelected(){
+        return selected;
+    }
 
 }
