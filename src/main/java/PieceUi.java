@@ -1,5 +1,6 @@
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import piece.Piece;
@@ -11,7 +12,7 @@ public class PieceUi extends StackPane {
     private Piece piece;
 
     @FXML
-    private ImageView pieceHolder;
+    private ToggleButton toggleButton;
 
     public PieceUi(Piece piece) {
         try {
@@ -23,7 +24,12 @@ public class PieceUi extends StackPane {
             e.printStackTrace();
         }
         this.piece = piece;
-        pieceHolder.setImage(piece.getImage());
+        ImageView imageView = new ImageView();
+        imageView.setImage(piece.getImage());
+        imageView.setPreserveRatio(true);
+        imageView.setX(50);
+        imageView.setY(50);
+        toggleButton.setGraphic(imageView);
     }
 
 }
