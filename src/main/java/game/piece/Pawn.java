@@ -19,12 +19,12 @@ public class Pawn extends Piece {
         super(image, color, position);
     }
 
-    public static Pawn spawnBlackPawn(int row, int col) {
-        return new Pawn(new Image(Pawn.class.getResourceAsStream(BLACK_PAWN)), Color.BLACK, new Position(row, col));
-    }
-
-    public static Pawn spawnWhitePawn(int row, int col) {
-        return new Pawn(new Image(Pawn.class.getResourceAsStream(WHITE_PAWN)), Color.WHITE, new Position(row, col));
+    public static Pawn spawnPawn(Position position, Color color){
+        if(color.equals(Color.BLACK)){
+            return new Pawn(new Image(Pawn.class.getResourceAsStream(BLACK_PAWN)), color, position);
+        }else{
+            return new Pawn(new Image(Pawn.class.getResourceAsStream(WHITE_PAWN)), color, position);
+        }
     }
 
     @Override
@@ -64,4 +64,8 @@ public class Pawn extends Piece {
         return positions;
     }
 
+    @Override
+    public String toString(){
+        return "P";
+    }
 }

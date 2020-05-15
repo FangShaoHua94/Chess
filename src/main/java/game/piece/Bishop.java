@@ -15,12 +15,12 @@ public class Bishop extends Piece {
         super(image, color, position);
     }
 
-    public static Bishop spawnBlackBishop(int row, int col) {
-        return new Bishop(new Image(Bishop.class.getResourceAsStream(BLACK_BISHOP)), Color.BLACK, new Position(row, col));
-    }
-
-    public static Bishop spawnWhiteBishop(int row, int col) {
-        return new Bishop(new Image(Bishop.class.getResourceAsStream(WHITE_BISHOP)), Color.WHITE, new Position(row, col));
+    public static Bishop spawnBishop(Position position,Color color){
+        if(color.equals(Color.BLACK)){
+            return new Bishop(new Image(Bishop.class.getResourceAsStream(BLACK_BISHOP)), color, position);
+        }else{
+            return new Bishop(new Image(Bishop.class.getResourceAsStream(WHITE_BISHOP)), color, position);
+        }
     }
 
     @Override
@@ -28,5 +28,9 @@ public class Bishop extends Piece {
         return null;
     }
 
+    @Override
+    public String toString(){
+        return "B";
+    }
 
 }

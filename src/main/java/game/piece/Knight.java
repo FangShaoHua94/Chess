@@ -15,12 +15,12 @@ public class Knight extends Piece {
         super(image, color, position);
     }
 
-    public static Knight spawnBlackKnight(int row, int col) {
-        return new Knight(new Image(Knight.class.getResourceAsStream(BLACK_KNIGHT)), Color.BLACK, new Position(row, col));
-    }
-
-    public static Knight spawnWhiteKnight(int row, int col) {
-        return new Knight(new Image(Knight.class.getResourceAsStream(WHITE_KNIGHT)), Color.WHITE, new Position(row, col));
+    public static Knight spawnKnight(Position position,Color color){
+        if(color.equals(Color.BLACK)){
+            return new Knight(new Image(Knight.class.getResourceAsStream(BLACK_KNIGHT)), color, position);
+        }else{
+            return new Knight(new Image(Knight.class.getResourceAsStream(WHITE_KNIGHT)), color, position);
+        }
     }
 
     @Override
@@ -28,5 +28,8 @@ public class Knight extends Piece {
         return null;
     }
 
-
+    @Override
+    public String toString(){
+        return "H";
+    }
 }

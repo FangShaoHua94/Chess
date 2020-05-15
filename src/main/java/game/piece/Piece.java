@@ -41,8 +41,7 @@ public abstract class Piece {
     }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName();
+    public String toString(){
+        return "null";
     }
-
 }

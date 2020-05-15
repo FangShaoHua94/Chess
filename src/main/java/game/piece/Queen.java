@@ -15,12 +15,12 @@ public class Queen extends Piece {
         super(image, color, position);
     }
 
-    public static Queen spawnBlackQueen(int row, int col) {
-        return new Queen(new Image(Queen.class.getResourceAsStream(BLACK_QUEEN)), Color.BLACK, new Position(row, col));
-    }
-
-    public static Queen spawnWhiteQueen(int row, int col) {
-        return new Queen(new Image(Queen.class.getResourceAsStream(WHITE_QUEEN)), Color.WHITE, new Position(row, col));
+    public static Queen spawnQueen(Position position,Color color){
+        if(color.equals(Color.BLACK)){
+            return new Queen(new Image(Queen.class.getResourceAsStream(BLACK_QUEEN)), color, position);
+        }else{
+            return new Queen(new Image(Queen.class.getResourceAsStream(WHITE_QUEEN)), color, position);
+        }
     }
 
     @Override
@@ -29,5 +29,8 @@ public class Queen extends Piece {
     }
 
 
-
+    @Override
+    public String toString(){
+        return "Q";
+    }
 }

@@ -15,12 +15,12 @@ public class Rook extends Piece {
         super(image, color, position);
     }
 
-    public static Rook spawnBlackRook(int row, int col) {
-        return new Rook(new Image(Rook.class.getResourceAsStream(BLACK_ROOK)), Color.BLACK, new Position(row, col));
-    }
-
-    public static Rook spawnWhiteRook(int row, int col) {
-        return new Rook(new Image(Rook.class.getResourceAsStream(WHITE_ROOK)), Color.WHITE, new Position(row, col));
+    public static Rook spawnRook(Position position,Color color){
+        if(color.equals(Color.BLACK)){
+            return new Rook(new Image(Rook.class.getResourceAsStream(BLACK_ROOK)), color, position);
+        }else{
+            return new Rook(new Image(Rook.class.getResourceAsStream(WHITE_ROOK)), color, position);
+        }
     }
 
     @Override
@@ -28,5 +28,8 @@ public class Rook extends Piece {
         return null;
     }
 
-
+    @Override
+    public String toString(){
+        return "R";
+    }
 }

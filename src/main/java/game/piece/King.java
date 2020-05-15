@@ -15,12 +15,12 @@ public class King extends Piece {
         super(image, color, position);
     }
 
-    public static King spawnBlackKing(int row, int col) {
-        return new King(new Image(King.class.getResourceAsStream(BLACK_KING)), Color.BLACK, new Position(row, col));
-    }
-
-    public static King spawnWhiteKing(int row, int col) {
-        return new King(new Image(King.class.getResourceAsStream(WHITE_KING)), Color.WHITE, new Position(row, col));
+    public static King spawnKing(Position position,Color color){
+        if(color.equals(Color.BLACK)){
+            return new King(new Image(King.class.getResourceAsStream(BLACK_KING)), color, position);
+        }else{
+            return new King(new Image(King.class.getResourceAsStream(WHITE_KING)), color, position);
+        }
     }
 
     @Override
@@ -28,5 +28,8 @@ public class King extends Piece {
         return null;
     }
 
-
+    @Override
+    public String toString(){
+        return "K";
+    }
 }

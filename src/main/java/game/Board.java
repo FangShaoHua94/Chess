@@ -2,174 +2,307 @@ package game;
 
 import game.piece.Piece;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-import static game.Tile.spawnDarkTile;
-import static game.Tile.spawnPaleTile;
-import static game.piece.Bishop.spawnBlackBishop;
-import static game.piece.Bishop.spawnWhiteBishop;
-import static game.piece.King.spawnBlackKing;
-import static game.piece.King.spawnWhiteKing;
-import static game.piece.Knight.spawnBlackKnight;
-import static game.piece.Knight.spawnWhiteKnight;
-import static game.piece.Pawn.spawnBlackPawn;
-import static game.piece.Pawn.spawnWhitePawn;
-import static game.piece.Queen.spawnBlackQueen;
-import static game.piece.Queen.spawnWhiteQueen;
-import static game.piece.Rook.spawnBlackRook;
-import static game.piece.Rook.spawnWhiteRook;
+import static game.piece.Bishop.spawnBishop;
+import static game.piece.King.spawnKing;
+import static game.piece.Knight.spawnKnight;
+import static game.piece.Pawn.spawnPawn;
+import static game.piece.Queen.spawnQueen;
+import static game.piece.Rook.spawnRook;
 
 public class Board extends AnchorPane {
 
-    public static final int DIMENSION = 8;
-    private PieceUi[][] board;
-    private Tile[][] tiles;
+    public static final int SIZE = 8;
+    private Tile[][] board;
     private Position selectedPosition;
     private ArrayList<Tile> highlightedTiles;
 
-    @FXML
-    private StackPane base;
+    private static final int DIMENSION=50;
+    private static final Color PALE_BASE = Color.web("#e6ccab");
+    private static final Color DARK_BASE = Color.web("#9d571b");
+    private static final Color SELECTED_BASE = Color.SKYBLUE;
+    private static final Color VALID_KILL_BASE = Color.RED;
+    private static final Color VALID_MOVE_PALE_BASE = Color.LIGHTGREEN;
+    private static final Color VALID_MOVE_DARK_BASE = Color.LIME;
+    private static final double LOW_OPACITY =0.35;
+    private static final double FULL_OPACITY=1;
 
     @FXML
     private GridPane grid;
 
     @FXML
     public void initialize() {
-        board = new PieceUi[DIMENSION][DIMENSION];
-        tiles = new Tile[DIMENSION][DIMENSION];
+        board = new Tile[SIZE][SIZE];
         highlightedTiles= new ArrayList<>();
         selectedPosition=null;
-        setUpTile();
-        setUpPiece();
+        setUpBoard();
     }
 
-    private void setUpTile() {
-        for (int i = 0; i < DIMENSION; i++) {
-            for (int j = 0; j < DIMENSION; j++) {
-                if ((i + j) % 2 == 0) {
-                    tiles[i][j] = spawnPaleTile(this,new Position(i,j));
-                } else {
-                    tiles[i][j] = spawnDarkTile(this,new Position(i,j));
-                }
-                grid.add(tiles[i][j], j, i);
-            }
-        }
-    }
-
-    private void setUpPiece() {
-        for (int i = 0; i < DIMENSION; i++) {
-            board[1][i] = new PieceUi(this,spawnBlackPawn(1, i));
-            board[6][i] = new PieceUi(this,spawnWhitePawn(6, i));
+    private void setUpBoard() {
+        for (int i = 0; i < SIZE; i++) {
             switch (i) {
             case 0:
+                spawnPiece(i, Color.BLACK);
+                break;
             case 7:
-                board[0][i] = new PieceUi(this,spawnBlackRook(0, i));
-                board[7][i] = new PieceUi(this,spawnWhiteRook(7, i));
+                spawnPiece(i, Color.WHITE);
+                break;
+            default:
+                for (int j = 0; j < SIZE; j++) {
+                    switch (i) {
+                    case 1:
+                        board[i][j] = new Tile(spawnPawn(new Position(i, j), Color.BLACK));
+                        break;
+                    case 6:
+                        board[i][j] = new Tile(spawnPawn(new Position(i, j), Color.WHITE));
+                        break;
+                    default:
+                        board[i][j] = new Tile(new Position(i, j));
+                    }
+                }
+            }
+        }
+        print();
+    }
+
+    private void spawnPiece(int i,Color color){
+        for(int j=0;j<SIZE;j++) {
+            switch (j) {
+            case 0:
+            case 7:
+                board[i][j] = new Tile(spawnRook(new Position(i, j),color));
                 break;
             case 1:
             case 6:
-                board[0][i] = new PieceUi(this,spawnBlackKnight(0, i));
-                board[7][i] = new PieceUi(this,spawnWhiteKnight(7, i));
+                board[i][j] = new Tile(spawnKnight(new Position(i, j),color));
                 break;
             case 2:
             case 5:
-                board[0][i] = new PieceUi(this,spawnBlackBishop(0, i));
-                board[7][i] = new PieceUi(this,spawnWhiteBishop(7, i));
+                board[i][j] = new Tile(spawnBishop(new Position(i, j),color));
                 break;
             case 3:
-                board[0][i] = new PieceUi(this,spawnBlackQueen(0, i));
-                board[7][i] =new PieceUi(this, spawnWhiteKing(7, i));
+                board[i][j] = new Tile(spawnQueen(new Position(i, j),color));
                 break;
             case 4:
-                board[0][i] = new PieceUi(this,spawnBlackKing(0, i));
-                board[7][i] = new PieceUi(this,spawnWhiteQueen(7, i));
-                break;
-            default:
+                board[i][j] = new Tile(spawnKing(new Position(i, j),color));
                 break;
             }
         }
-        for (int i = 0; i < DIMENSION; i++) {
-            for (int j = 0; j < DIMENSION; j++) {
-                if (i < 2 || i > 5) {
-                    grid.add(board[i][j], j, i);
+    }
+
+
+//    public void select(Position position) {
+//        selectedPosition= position;
+//        getTile(position).setSelectedBase();
+//    }
+//
+//    public void unselect(Position position) {
+//        selectedPosition=null;
+//        getTile(position).setOriginalColor();
+//        highlightedTiles.forEach(Tile::setOriginalColor);
+//        highlightedTiles.clear();
+//    }
+//
+//    public boolean isSelected() {
+//        return selectedPosition!=null;
+//    }
+
+//    public void showValidMove(ArrayList<Position> validMove,Color color) {
+//        for(Position position:validMove){
+//            // invalid move on friendly piece
+//            if(getPiece(position)!=null && getPiece(position).sameColor(color)){
+//                continue;
+//            }
+//
+//            highlightedTiles.add(getTile(position));
+//            // valid move on empty tile
+//            if(getPiece(position)==null){
+//                getTile(position).setValidMoveBase();
+//            }
+//
+//            // valid move on opposite color tile
+//            if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
+//                getTile(position).setValidKillBase();
+//            }
+//        }
+//    }
+
+//    public boolean isValidMove(Position position){
+//        return highlightedTiles.stream().anyMatch(tile -> tile.equals(getTile(position)));
+//    }
+//
+//
+//    private Tile getTile(Position position){
+//        return tiles[position.getRow()][position.getCol()];
+//    }
+//
+//    private void moveTo(Position originalPosition, Position newPosition){
+//        board[newPosition.getRow()][newPosition.getCol()]=board[originalPosition.getRow()][originalPosition.getCol()];
+//        board[originalPosition.getRow()][originalPosition.getCol()]=null;
+//    }
+//
+//    public void move(Position position){
+//        PieceUi piece= getPiece(selectedPosition);
+//        grid.getChildren().remove(piece);
+//        piece.move(position);
+//        grid.add(piece,position.getCol(),position.getRow());
+//        moveTo(selectedPosition,position);
+//        getTile(selectedPosition).setOriginalColor();
+//        selectedPosition=null;
+//        highlightedTiles.forEach(Tile::setOriginalColor);
+//        highlightedTiles.clear();
+//    }
+
+    private void print(){
+        for(int i=0;i<SIZE;i++){
+            for(int j=0;j<SIZE;j++){
+                if(board[i][j]!=null) {
+                    System.out.print(board[i][j].getPiece());
+                }else{
+                    System.out.print("-");
                 }
             }
+            System.out.println();
         }
     }
 
-    public void select(Position position) {
-        selectedPosition= position;
+    class Tile extends StackPane {
 
-        System.out.println("selected from board");
-        System.out.println(position.getCol());
-        System.out.println(position.getRow());
-        getTile(position).setSelectedBase();
-    }
+        private Rectangle base;
+        private Piece piece;
+        private Position position;
+        private Color originalColor;
+        private ImageView pieceImage;
 
-    public void unselect(Position position) {
-        selectedPosition=null;
-        getTile(position).setOriginalColor();
-        highlightedTiles.forEach(Tile::setOriginalColor);
-        highlightedTiles.clear();
-    }
-
-    public boolean isSelected() {
-        return selectedPosition!=null;
-    }
-
-    public void showValidMove(ArrayList<Position> validMove,Color color) {
-        for(Position position:validMove){
-            // invalid move on friendly piece
-            if(getPiece(position)!=null && getPiece(position).sameColor(color)){
-                continue;
-            }
-
-            highlightedTiles.add(getTile(position));
-            // valid move on empty tile
-            if(getPiece(position)==null){
-                getTile(position).setValidMoveBase();
-            }
-
-            // valid move on opposite color tile
-            if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
-                getTile(position).setValidKillBase();
-            }
+        public Tile (Position position, Piece piece){
+            this.setPrefSize(DIMENSION,DIMENSION);
+            this.setMaxSize(DIMENSION,DIMENSION);
+            this.setMinSize(DIMENSION,DIMENSION);
+            base =new Rectangle(DIMENSION,DIMENSION);
+            base.minHeight(DIMENSION);
+            base.minWidth(DIMENSION);
+            base.maxHeight(DIMENSION);
+            base.minWidth(DIMENSION);
+            this.position=position;
+            this.getChildren().add(base);
+            setUpBaseColour();
+            setUpImage(piece);
+            setUpBaseControl();
         }
+
+        public Tile (Position position){
+            this(position,null);
+        }
+
+        public Tile (Piece piece){
+            this(piece.getPosition(),piece);
+        }
+
+        private void setUpBaseColour(){
+            if((position.getCol()+position.getRow())%2==0){
+                originalColor=PALE_BASE;
+            }else{
+                originalColor=DARK_BASE;
+            }
+            setOriginalColor();
+        }
+
+        private void setUpImage(Piece piece){
+            pieceImage = new ImageView();
+            pieceImage.prefWidth(DIMENSION);
+            pieceImage.prefHeight(DIMENSION);
+            pieceImage.maxWidth(DIMENSION);
+            pieceImage.maxHeight(DIMENSION);
+            pieceImage.minWidth(DIMENSION);
+            pieceImage.minHeight(DIMENSION);
+            pieceImage.setPreserveRatio(true);
+            setUpPieceControl();
+            if(piece==null){
+                pieceImage.setImage(null);
+            }else{
+                this.piece = piece;
+                pieceImage.setImage(piece.getImage());
+                this.getChildren().add(pieceImage);
+            }
+            grid.add(this,position.getCol(),position.getRow());
+        }
+
+        private void setUpBaseControl(){
+//                setOnMouseClicked(e -> {
+//                    if(piece==null) {
+//
+//                    }else {
+//                        if (board.isSelected() && board.isValidMove(position)) {
+//                            System.out.println("aaa" + position.getCol());
+//                            System.out.println(position.getRow());
+//                            board.move(position);
+//                        }
+//                    }
+//                });
+        }
+
+        private void setUpPieceControl(){
+//            setOnMouseClicked(e->{
+//                if (board.isSelected() && !isSelect) {
+//                    return;
+//                }
+//
+//                if (board.isSelected()) {
+//                    System.out.println(board.isSelected() + "   UnSelect");
+//                    board.unselect(piece.getPosition());
+//                    isSelect = false;
+//                } else {
+//                    System.out.println(board.isSelected() + " Select  ");
+//                    board.select(piece.getPosition());
+//                    isSelect = true;
+//                    board.showValidMove(piece.validMove(),piece.getColor());
+//                }
+//            });
+        }
+
+        public ImageView getPieceImage(){
+            return pieceImage;
+        }
+
+        public Rectangle getBase(){
+            return base;
+        }
+
+    public Piece getPiece(){
+            return piece;
     }
 
-    public boolean isValidMove(Position position){
-        return highlightedTiles.stream().anyMatch(tile -> tile.equals(getTile(position)));
-    }
 
-    private PieceUi getPiece(Position position){
-        return board[position.getRow()][position.getCol()];
-    }
+        public void setSelectedBase(){
+            base.setFill(SELECTED_BASE);
+        }
 
-    private Tile getTile(Position position){
-        return tiles[position.getRow()][position.getCol()];
-    }
+        public void setValidKillBase(){
+            base.setFill(VALID_KILL_BASE);
+            base.setOpacity(LOW_OPACITY);
+        }
 
-    private void moveTo(Position originalPosition, Position newPosition){
-        board[newPosition.getRow()][newPosition.getCol()]=board[originalPosition.getRow()][originalPosition.getCol()];
-        board[originalPosition.getRow()][originalPosition.getCol()]=null;
-    }
+        public void setValidMoveBase(){
+            if(originalColor.equals(PALE_BASE)){
+                base.setFill(VALID_MOVE_PALE_BASE);
+            }else{
+                base.setFill(VALID_MOVE_DARK_BASE);
+            }
+            base.setOpacity(LOW_OPACITY);
+        }
 
-    public void move(Position position){
-        PieceUi piece= getPiece(selectedPosition);
-        grid.getChildren().remove(piece);
-        piece.move(position);
-        grid.add(piece,position.getCol(),position.getRow());
-        moveTo(selectedPosition,position);
-        getTile(selectedPosition).setOriginalColor();
-        selectedPosition=null;
-        highlightedTiles.forEach(Tile::setOriginalColor);
-        highlightedTiles.clear();
+        public void setOriginalColor(){
+            base.setFill(originalColor);
+            base.setOpacity(FULL_OPACITY);
+        }
     }
 
 

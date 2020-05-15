@@ -1,6 +1,6 @@
 package game;
 
-import static game.Board.DIMENSION;
+import static game.Board.SIZE;
 
 public class Position {
 
@@ -37,7 +37,7 @@ public class Position {
     }
 
     public static boolean withinBoundary(int row, int col) {
-        return row >= 0 && row < DIMENSION && col >= 0 && col < DIMENSION;
+        return row >= 0 && row < SIZE && col >= 0 && col < SIZE;
     }
 
     public static boolean withinBoundary(Position position) {
