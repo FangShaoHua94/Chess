@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 
 import static game.piece.Bishop.spawnBishop;
 import static game.piece.King.spawnKing;
@@ -184,13 +185,7 @@ public class Board extends AnchorPane {
 
         public Tile (Position position, Piece piece){
             this.setPrefSize(DIMENSION,DIMENSION);
-            this.setMaxSize(DIMENSION,DIMENSION);
-            this.setMinSize(DIMENSION,DIMENSION);
             base =new Rectangle(DIMENSION,DIMENSION);
-            base.minHeight(DIMENSION);
-            base.minWidth(DIMENSION);
-            base.maxHeight(DIMENSION);
-            base.minWidth(DIMENSION);
             this.position=position;
             this.getChildren().add(base);
             setUpBaseColour();
@@ -217,12 +212,8 @@ public class Board extends AnchorPane {
 
         private void setUpImage(Piece piece){
             pieceImage = new ImageView();
-            pieceImage.prefWidth(DIMENSION);
-            pieceImage.prefHeight(DIMENSION);
-            pieceImage.maxWidth(DIMENSION);
-            pieceImage.maxHeight(DIMENSION);
-            pieceImage.minWidth(DIMENSION);
-            pieceImage.minHeight(DIMENSION);
+            pieceImage.setFitHeight(DIMENSION);
+            pieceImage.setFitWidth(DIMENSION);
             pieceImage.setPreserveRatio(true);
             setUpPieceControl();
             if(piece==null){
