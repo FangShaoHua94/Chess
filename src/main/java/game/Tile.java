@@ -17,19 +17,29 @@ public class Tile extends Rectangle {
     private static final double FULL_OPACITY=1;
 
     private Color originalColor;
+    private Position position;
+    private Board board;
 
-    public Tile (Color originalColor){
+    public Tile (Board board,Position position, Color originalColor){
         super(DIMENSION,DIMENSION);
+        this.position=position;
         this.originalColor=originalColor;
+        setOnMouseClicked(e->{
+            if(board.isSelected() && board.isValidMove(position)){
+                System.out.println("aaa"+position.getCol());
+                System.out.println(position.getRow());
+                board.move(position);
+            }
+        });
         setOriginalColor();
     }
 
-    public static Tile spawnPaleTile(){
-        return new Tile(PALE_BASE);
+    public static Tile spawnPaleTile(Board board,Position position){
+        return new Tile(board,position,PALE_BASE);
     }
 
-    public static Tile spawnDarkTile(){
-        return new Tile(DARK_BASE);
+    public static Tile spawnDarkTile(Board board,Position position){
+        return new Tile(board,position,DARK_BASE);
     }
 
     public void setSelectedBase(){
@@ -54,4 +64,6 @@ public class Tile extends Rectangle {
         setFill(originalColor);
         setOpacity(FULL_OPACITY);
     }
+
+
 }
