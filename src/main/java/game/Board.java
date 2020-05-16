@@ -147,23 +147,14 @@ public class Board extends AnchorPane {
     private Piece getPiece(Position position){
         return board[position.getRow()][position.getCol()].getPiece();
     }
-//
-//    private void moveTo(Position originalPosition, Position newPosition){
-//        board[newPosition.getRow()][newPosition.getCol()]=board[originalPosition.getRow()][originalPosition.getCol()];
-//        board[originalPosition.getRow()][originalPosition.getCol()]=null;
-//    }
-//
-//    public void move(Position position){
-//        PieceUi piece= getPiece(selectedPosition);
-//        grid.getChildren().remove(piece);
-//        piece.move(position);
-//        grid.add(piece,position.getCol(),position.getRow());
-//        moveTo(selectedPosition,position);
-//        getTile(selectedPosition).setOriginalColor();
-//        selectedPosition=null;
-//        highlightedTiles.forEach(Tile::setOriginalColor);
-//        highlightedTiles.clear();
-//    }
+
+    public void move(Position position){
+        getTile(selectedPosition).removePieceTo(getTile(position));
+        getTile(selectedPosition).setOriginalColor();
+        selectedPosition=null;
+        highlightedTiles.forEach(Tile::setOriginalColor);
+        highlightedTiles.clear();
+    }
 
     private void print(){
         for(int i=0;i<SIZE;i++){
@@ -226,23 +217,21 @@ public class Board extends AnchorPane {
             }else{
                 this.piece = piece;
                 pieceImage.setImage(piece.getImage());
-                this.getChildren().add(pieceImage);
             }
+            this.getChildren().add(pieceImage);
             grid.add(this,position.getCol(),position.getRow());
         }
 
         private void setUpBaseControl(){
-//                setOnMouseClicked(e -> {
-//                    if(piece==null) {
-//
-//                    }else {
-//                        if (board.isSelected() && board.isValidMove(position)) {
-//                            System.out.println("aaa" + position.getCol());
-//                            System.out.println(position.getRow());
-//                            board.move(position);
-//                        }
-//                    }
-//                });
+            setOnMouseClicked(e -> {
+                if(piece==null) {
+                    if (isSelected() && isValidMove(position)) {
+                        move(position);
+                    }
+                }else {
+
+                }
+            });
         }
 
         private void setUpPieceControl(){
@@ -272,9 +261,22 @@ public class Board extends AnchorPane {
             return base;
         }
 
-    public Piece getPiece(){
-            return piece;
-    }
+        public Piece getPiece(){
+                return piece;
+        }
+
+        public void removePieceTo(Tile tile){
+            tile.addPiece(piece);
+            piece=null;
+            pieceImage.setImage(null);
+        }
+
+        private void addPiece(Piece piece){
+            this.piece = piece;
+            piece.move(position);
+            pieceImage.setImage(piece.getImage());
+            setUpPieceControl();
+        }
 
 
         public void setSelectedBase(){
