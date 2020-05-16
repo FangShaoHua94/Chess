@@ -24,6 +24,7 @@ public class Board extends AnchorPane {
     private Tile[][] board;
     private Position selectedPosition;
     private ArrayList<Tile> highlightedTiles;
+    private Color turn;
 
     private static final int DIMENSION = 50;
     private static final Color PALE_BASE = Color.web("#e6ccab");
@@ -43,6 +44,7 @@ public class Board extends AnchorPane {
         board = new Tile[SIZE][SIZE];
         highlightedTiles = new ArrayList<>();
         selectedPosition = null;
+        turn=Color.WHITE;
         setUpBoard();
     }
 
@@ -189,6 +191,14 @@ public class Board extends AnchorPane {
         highlightedTiles.clear();
     }
 
+    public void changeTurn(){
+        if(turn.equals(Color.WHITE)){
+            turn=Color.BLACK;
+        }else{
+            turn=Color.WHITE;
+        }
+    }
+
     private void print() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -259,12 +269,18 @@ public class Board extends AnchorPane {
             setOnMouseClicked(e -> {
                 if (isSelected() && isValidMove(position)) {
                     move(position);
+                    changeTurn();
                 }
             });
         }
 
         private void setUpPieceControl() {
             pieceImage.setOnMouseClicked(e -> {
+                // not the turn
+                if(!turn.equals(piece.getColor())){
+                    return;
+                }
+
                 if (isSelected() && !isSelect) {
                     return;
                 }
