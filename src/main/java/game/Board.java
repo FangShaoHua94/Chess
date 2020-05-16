@@ -157,14 +157,12 @@ public class Board extends AnchorPane {
             for (ArrayList<Position> positions : validMove) {
                 for (Position position : positions) {
                     if (getPiece(position) != null) {
-                        if (getPiece(position).sameColor(color)) {
-                            // invalid move on friendly piece
-                            break;
-                        } else {
+                        if (!getPiece(position).sameColor(color)) {
                             // valid move on opposite color tile
                             getTile(position).setValidKillBase();
                             highlightedTiles.add(getTile(position));
                         }
+                        break;
                     }
                 }
             }
