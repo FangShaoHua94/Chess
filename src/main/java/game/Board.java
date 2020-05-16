@@ -116,21 +116,26 @@ public class Board extends AnchorPane {
     }
 
     public void showValidMove(ArrayList<Position> validMove,Color color) {
-        for(Position position:validMove){
-            // invalid move on friendly piece
-            if(getPiece(position)!=null && getPiece(position).sameColor(color)){
-                continue;
-            }
-
-            highlightedTiles.add(getTile(position));
-            // valid move on empty tile
-            if(getPiece(position)==null){
+        for (Position position : validMove) {
+            if (getPiece(position) == null) {
+                // valid move on empty tile
                 getTile(position).setValidMoveBase();
+                highlightedTiles.add(getTile(position));
             }
+        }
+    }
 
-            // valid move on opposite color tile
-            if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
-                getTile(position).setValidKillBase();
+    public void showValidKillMove(ArrayList<Position> validMove,Color color) {
+        for(Position position:validMove){
+            if(getPiece(position)!=null){
+                if(getPiece(position).sameColor(color)){
+                    // invalid move on friendly piece
+                    continue;
+                }else{
+                    // valid move on opposite color tile
+                    getTile(position).setValidKillBase();
+                    highlightedTiles.add(getTile(position));
+                }
             }
         }
     }
@@ -138,7 +143,6 @@ public class Board extends AnchorPane {
     public boolean isValidMove(Position position){
         return highlightedTiles.stream().anyMatch(tile -> tile.equals(getTile(position)));
     }
-
 
     private Tile getTile(Position position){
         return board[position.getRow()][position.getCol()];
@@ -224,12 +228,8 @@ public class Board extends AnchorPane {
 
         private void setUpBaseControl(){
             setOnMouseClicked(e -> {
-                if(piece==null) {
-                    if (isSelected() && isValidMove(position)) {
-                        move(position);
-                    }
-                }else {
-
+                if(isSelected() && isValidMove(position)) {
+                    move(position);
                 }
             });
         }
@@ -239,7 +239,6 @@ public class Board extends AnchorPane {
                 if (isSelected() && !isSelect) {
                     return;
                 }
-
                 if (isSelected()) {
                     System.out.println("UnSelect");
                     unselect(piece.getPosition());
@@ -249,6 +248,7 @@ public class Board extends AnchorPane {
                     select(piece.getPosition());
                     isSelect = true;
                     showValidMove(piece.validMove(),piece.getColor());
+                    showValidKillMove(piece.validKillMove(),piece.getColor());
                 }
             });
         }

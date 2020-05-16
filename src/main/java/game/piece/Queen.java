@@ -28,6 +28,11 @@ public class Queen extends Piece {
         return null;
     }
 
+    @Override
+    public ArrayList<Position> validKillMove() {
+        return null;
+    }
+
 
     @Override
     public String toString(){

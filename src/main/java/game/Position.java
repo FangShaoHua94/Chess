@@ -1,5 +1,7 @@
 package game;
 
+import javafx.scene.paint.Color;
+
 import static game.Board.SIZE;
 
 public class Position {
@@ -34,6 +36,14 @@ public class Position {
 
     public Position right(){
         return new Position(row,col+1);
+    }
+
+    public Position by(Color color){
+        if(color.equals(Color.BLACK)){
+            return down();
+        }else{
+            return up();
+        }
     }
 
     public static boolean withinBoundary(int row, int col) {

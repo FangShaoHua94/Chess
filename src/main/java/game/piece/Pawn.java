@@ -29,39 +29,36 @@ public class Pawn extends Piece {
 
     @Override
     public ArrayList<Position> validMove() {
-        if (getColor().equals(Color.BLACK)) {
-            return blackMove();
-        } else {
-           return whiteMove();
+        ArrayList<Position> positions = new ArrayList<>();
+
+        if(withinBoundary(getPosition().by(getColor()))){
+            positions.add(getPosition().by(getColor()));
         }
+
+        if(isFirstMove && withinBoundary(getPosition().by(getColor()).by(getColor()))){
+            positions.add(getPosition().by(getColor()).by(getColor()));
+        }
+        return positions;
+    }
+
+    @Override
+    public ArrayList<Position> validKillMove() {
+        ArrayList<Position> positions = new ArrayList<>();
+
+        if(withinBoundary(getPosition().by(getColor()).left())){
+            positions.add(getPosition().by(getColor()).left());
+        }
+
+        if(withinBoundary(getPosition().by(getColor()).right())){
+            positions.add(getPosition().by(getColor()).right());
+        }
+        return positions;
     }
 
     @Override
     public void move(Position position) {
         isFirstMove=false;
         super.move(position);
-    }
-
-    private ArrayList<Position> blackMove(){
-        ArrayList<Position> positions = new ArrayList<>();
-        if(withinBoundary(getPosition().down())){
-            positions.add(getPosition().down());
-        }
-        if(isFirstMove && withinBoundary(getPosition().down().down())){
-            positions.add(getPosition().down().down());
-        }
-        return positions;
-    }
-
-    private ArrayList<Position> whiteMove(){
-        ArrayList<Position> positions = new ArrayList<>();
-        if(withinBoundary(getPosition().up())){
-            positions.add(getPosition().up());
-        }
-        if(isFirstMove && withinBoundary(getPosition().up().up())){
-            positions.add(getPosition().up().up());
-        }
-        return positions;
     }
 
     @Override

@@ -29,6 +29,11 @@ public class Rook extends Piece {
     }
 
     @Override
+    public ArrayList<Position> validKillMove() {
+        return null;
+    }
+
+    @Override
     public String toString(){
         return "R";
     }
