@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 
 import static game.piece.Bishop.spawnBishop;
 import static game.piece.King.spawnKing;
@@ -100,50 +99,54 @@ public class Board extends AnchorPane {
     }
 
 
-//    public void select(Position position) {
-//        selectedPosition= position;
-//        getTile(position).setSelectedBase();
-//    }
-//
-//    public void unselect(Position position) {
-//        selectedPosition=null;
-//        getTile(position).setOriginalColor();
-//        highlightedTiles.forEach(Tile::setOriginalColor);
-//        highlightedTiles.clear();
-//    }
-//
-//    public boolean isSelected() {
-//        return selectedPosition!=null;
-//    }
+    public void select(Position position) {
+        selectedPosition= position;
+        getTile(position).setSelectedBase();
+    }
 
-//    public void showValidMove(ArrayList<Position> validMove,Color color) {
-//        for(Position position:validMove){
-//            // invalid move on friendly piece
-//            if(getPiece(position)!=null && getPiece(position).sameColor(color)){
-//                continue;
-//            }
-//
-//            highlightedTiles.add(getTile(position));
-//            // valid move on empty tile
-//            if(getPiece(position)==null){
-//                getTile(position).setValidMoveBase();
-//            }
-//
-//            // valid move on opposite color tile
-//            if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
-//                getTile(position).setValidKillBase();
-//            }
-//        }
-//    }
+    public void unselect(Position position) {
+        selectedPosition=null;
+        getTile(position).setOriginalColor();
+        highlightedTiles.forEach(Tile::setOriginalColor);
+        highlightedTiles.clear();
+    }
 
-//    public boolean isValidMove(Position position){
-//        return highlightedTiles.stream().anyMatch(tile -> tile.equals(getTile(position)));
-//    }
-//
-//
-//    private Tile getTile(Position position){
-//        return tiles[position.getRow()][position.getCol()];
-//    }
+    public boolean isSelected() {
+        return selectedPosition!=null;
+    }
+
+    public void showValidMove(ArrayList<Position> validMove,Color color) {
+        for(Position position:validMove){
+            // invalid move on friendly piece
+            if(getPiece(position)!=null && getPiece(position).sameColor(color)){
+                continue;
+            }
+
+            highlightedTiles.add(getTile(position));
+            // valid move on empty tile
+            if(getPiece(position)==null){
+                getTile(position).setValidMoveBase();
+            }
+
+            // valid move on opposite color tile
+            if (getPiece(position)!=null && !getPiece(position).sameColor(color)){
+                getTile(position).setValidKillBase();
+            }
+        }
+    }
+
+    public boolean isValidMove(Position position){
+        return highlightedTiles.stream().anyMatch(tile -> tile.equals(getTile(position)));
+    }
+
+
+    private Tile getTile(Position position){
+        return board[position.getRow()][position.getCol()];
+    }
+
+    private Piece getPiece(Position position){
+        return board[position.getRow()][position.getCol()].getPiece();
+    }
 //
 //    private void moveTo(Position originalPosition, Position newPosition){
 //        board[newPosition.getRow()][newPosition.getCol()]=board[originalPosition.getRow()][originalPosition.getCol()];
@@ -182,11 +185,13 @@ public class Board extends AnchorPane {
         private Position position;
         private Color originalColor;
         private ImageView pieceImage;
+        private boolean isSelect;
 
         public Tile (Position position, Piece piece){
             this.setPrefSize(DIMENSION,DIMENSION);
             base =new Rectangle(DIMENSION,DIMENSION);
             this.position=position;
+            isSelect=false;
             this.getChildren().add(base);
             setUpBaseColour();
             setUpImage(piece);
@@ -241,22 +246,22 @@ public class Board extends AnchorPane {
         }
 
         private void setUpPieceControl(){
-//            setOnMouseClicked(e->{
-//                if (board.isSelected() && !isSelect) {
-//                    return;
-//                }
-//
-//                if (board.isSelected()) {
-//                    System.out.println(board.isSelected() + "   UnSelect");
-//                    board.unselect(piece.getPosition());
-//                    isSelect = false;
-//                } else {
-//                    System.out.println(board.isSelected() + " Select  ");
-//                    board.select(piece.getPosition());
-//                    isSelect = true;
-//                    board.showValidMove(piece.validMove(),piece.getColor());
-//                }
-//            });
+            pieceImage.setOnMouseClicked(e->{
+                if (isSelected() && !isSelect) {
+                    return;
+                }
+
+                if (isSelected()) {
+                    System.out.println("UnSelect");
+                    unselect(piece.getPosition());
+                    isSelect = false;
+                } else {
+                    System.out.println("Select");
+                    select(piece.getPosition());
+                    isSelect = true;
+                    showValidMove(piece.validMove(),piece.getColor());
+                }
+            });
         }
 
         public ImageView getPieceImage(){
