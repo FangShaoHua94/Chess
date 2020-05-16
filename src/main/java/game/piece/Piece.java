@@ -30,9 +30,9 @@ public abstract class Piece {
         return image;
     }
 
-    public abstract ArrayList<Position> validMove();
+    public abstract ArrayList<ArrayList<Position>> validMove();
 
-    public abstract ArrayList<Position> validKillMove();
+    public abstract ArrayList<ArrayList<Position>> validKillMove();
 
     public void move(Position position){
         this.position=position;

@@ -46,6 +46,10 @@ public class Position {
         }
     }
 
+    public Position duplicate(){
+        return new Position(row,col);
+    }
+
     public static boolean withinBoundary(int row, int col) {
         return row >= 0 && row < SIZE && col >= 0 && col < SIZE;
     }

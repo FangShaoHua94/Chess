@@ -115,26 +115,57 @@ public class Board extends AnchorPane {
         return selectedPosition!=null;
     }
 
-    public void showValidMove(ArrayList<Position> validMove,Color color) {
-        for (Position position : validMove) {
-            if (getPiece(position) == null) {
-                // valid move on empty tile
-                getTile(position).setValidMoveBase();
-                highlightedTiles.add(getTile(position));
+    public void showValidMove(ArrayList<ArrayList<Position>> validMove) {
+        if(validMove.size()==1){
+            for (Position position : validMove.get(0)) {
+                if (getPiece(position) == null) {
+                    // valid move on empty tile
+                    getTile(position).setValidMoveBase();
+                    highlightedTiles.add(getTile(position));
+                }
+            }
+        }else {
+            for (ArrayList<Position> positions : validMove) {
+                for (Position position : positions) {
+                    if (getPiece(position) == null) {
+                        // valid move on empty tile
+                        getTile(position).setValidMoveBase();
+                        highlightedTiles.add(getTile(position));
+                    } else {
+                        break;
+                    }
+                }
             }
         }
     }
 
-    public void showValidKillMove(ArrayList<Position> validMove,Color color) {
-        for(Position position:validMove){
-            if(getPiece(position)!=null){
-                if(getPiece(position).sameColor(color)){
-                    // invalid move on friendly piece
-                    continue;
-                }else{
-                    // valid move on opposite color tile
-                    getTile(position).setValidKillBase();
-                    highlightedTiles.add(getTile(position));
+    public void showValidKillMove(ArrayList<ArrayList<Position>> validMove,Color color) {
+        if(validMove.size()==1) {
+            for (Position position : validMove.get(0)) {
+                if (getPiece(position) != null) {
+                    if (getPiece(position).sameColor(color)) {
+                        // invalid move on friendly piece
+                        continue;
+                    } else {
+                        // valid move on opposite color tile
+                        getTile(position).setValidKillBase();
+                        highlightedTiles.add(getTile(position));
+                    }
+                }
+            }
+        }else {
+            for (ArrayList<Position> positions : validMove) {
+                for (Position position : positions) {
+                    if (getPiece(position) != null) {
+                        if (getPiece(position).sameColor(color)) {
+                            // invalid move on friendly piece
+                            break;
+                        } else {
+                            // valid move on opposite color tile
+                            getTile(position).setValidKillBase();
+                            highlightedTiles.add(getTile(position));
+                        }
+                    }
                 }
             }
         }
@@ -247,7 +278,7 @@ public class Board extends AnchorPane {
                     System.out.println("Select");
                     select(piece.getPosition());
                     isSelect = true;
-                    showValidMove(piece.validMove(),piece.getColor());
+                    showValidMove(piece.validMove());
                     showValidKillMove(piece.validKillMove(),piece.getColor());
                 }
             });

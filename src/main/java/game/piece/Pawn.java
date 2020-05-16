@@ -28,30 +28,34 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public ArrayList<Position> validMove() {
-        ArrayList<Position> positions = new ArrayList<>();
+    public ArrayList<ArrayList<Position>> validMove() {
+        ArrayList<ArrayList<Position>> positions = new ArrayList<>();
+        ArrayList<Position> position = new ArrayList<>();
 
         if(withinBoundary(getPosition().by(getColor()))){
-            positions.add(getPosition().by(getColor()));
+            position.add(getPosition().by(getColor()));
         }
 
         if(isFirstMove && withinBoundary(getPosition().by(getColor()).by(getColor()))){
-            positions.add(getPosition().by(getColor()).by(getColor()));
+            position.add(getPosition().by(getColor()).by(getColor()));
         }
+        positions.add(position);
         return positions;
     }
 
     @Override
-    public ArrayList<Position> validKillMove() {
-        ArrayList<Position> positions = new ArrayList<>();
+    public ArrayList<ArrayList<Position>> validKillMove() {
+        ArrayList<ArrayList<Position>> positions = new ArrayList<>();
+        ArrayList<Position> position = new ArrayList<>();
 
         if(withinBoundary(getPosition().by(getColor()).left())){
-            positions.add(getPosition().by(getColor()).left());
+            position.add(getPosition().by(getColor()).left());
         }
 
         if(withinBoundary(getPosition().by(getColor()).right())){
-            positions.add(getPosition().by(getColor()).right());
+            position.add(getPosition().by(getColor()).right());
         }
+        positions.add(position);
         return positions;
     }
 

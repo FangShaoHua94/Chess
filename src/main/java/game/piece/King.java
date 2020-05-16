@@ -24,12 +24,12 @@ public class King extends Piece {
     }
 
     @Override
-    public ArrayList<Position> validMove() {
+    public ArrayList<ArrayList<Position>> validMove() {
         return null;
     }
 
     @Override
-    public ArrayList<Position> validKillMove() {
+    public ArrayList<ArrayList<Position>> validKillMove() {
         return null;
     }
 

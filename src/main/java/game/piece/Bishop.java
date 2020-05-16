@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+import static game.Position.withinBoundary;
+
 public class Bishop extends Piece {
 
     private static final String BLACK_BISHOP = "/images/blackBishop.png";
@@ -24,12 +26,45 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public ArrayList<Position> validMove() {
-        return null;
+    public ArrayList<ArrayList<Position>> validMove() {
+        ArrayList<ArrayList<Position>> positions = new ArrayList<>();
+
+        ArrayList<Position> position = new ArrayList<>();
+        Position targetPosition = getPosition().up().left();
+        while(withinBoundary(targetPosition)){
+            position.add(targetPosition.duplicate());
+            targetPosition=targetPosition.up().left();
+        }
+        positions.add(position);
+
+        position = new ArrayList<>();
+        targetPosition = getPosition().up().right();
+        while(withinBoundary(targetPosition)){
+            position.add(targetPosition.duplicate());
+            targetPosition=targetPosition.up().right();
+        }
+        positions.add(position);
+
+        position = new ArrayList<>();
+        targetPosition = getPosition().down().left();
+        while(withinBoundary(targetPosition)){
+            position.add(targetPosition.duplicate());
+            targetPosition=targetPosition.down().left();
+        }
+        positions.add(position);
+
+        position = new ArrayList<>();
+        targetPosition = getPosition().down().right();
+        while(withinBoundary(targetPosition)){
+            position.add(targetPosition.duplicate());
+            targetPosition=targetPosition.down().right();
+        }
+        positions.add(position);
+        return positions;
     }
 
     @Override
-    public ArrayList<Position> validKillMove() {
+    public ArrayList<ArrayList<Position>> validKillMove() {
         return null;
     }
 
