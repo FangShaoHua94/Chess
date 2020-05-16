@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+import static game.Position.withinBoundary;
+
 public class Knight extends Piece {
 
     private static final String BLACK_KNIGHT = "/images/blackKnight.png";
@@ -25,12 +27,45 @@ public class Knight extends Piece {
 
     @Override
     public ArrayList<ArrayList<Position>> validMove() {
-        return null;
+        ArrayList<ArrayList<Position>> positions = new ArrayList<>();
+        ArrayList<Position> position = new ArrayList<>();
+
+        // up
+        if (withinBoundary(getPosition().up().up().left())) {
+            position.add(getPosition().up().up().left());
+        }
+        if (withinBoundary(getPosition().up().up().right())) {
+            position.add(getPosition().up().up().right());
+        }
+        // down
+        if (withinBoundary(getPosition().down().down().left())) {
+            position.add(getPosition().down().down().left());
+        }
+        if (withinBoundary(getPosition().down().down().right())) {
+            position.add(getPosition().down().down().right());
+        }
+        // right
+        if (withinBoundary(getPosition().right().right().down())) {
+            position.add(getPosition().right().right().down());
+        }
+        if (withinBoundary(getPosition().right().right().up())) {
+            position.add(getPosition().right().right().up());
+        }
+        // left
+        if (withinBoundary(getPosition().left().left().up())) {
+            position.add(getPosition().left().left().up());
+        }
+        if (withinBoundary(getPosition().left().left().down())) {
+            position.add(getPosition().left().left().down());
+        }
+
+        positions.add(position);
+        return positions;
     }
 
     @Override
     public ArrayList<ArrayList<Position>> validKillMove() {
-        return null;
+        return validMove();
     }
 
     @Override
