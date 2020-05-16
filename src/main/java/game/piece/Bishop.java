@@ -64,11 +64,6 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public ArrayList<ArrayList<Position>> validKillMove() {
-        return validMove();
-    }
-
-    @Override
     public String toString() {
         return "B";
     }

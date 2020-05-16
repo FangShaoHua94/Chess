@@ -63,10 +63,6 @@ public class Knight extends Piece {
         return positions;
     }
 
-    @Override
-    public ArrayList<ArrayList<Position>> validKillMove() {
-        return validMove();
-    }
 
     @Override
     public String toString() {

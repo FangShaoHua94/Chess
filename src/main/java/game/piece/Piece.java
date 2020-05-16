@@ -32,7 +32,9 @@ public abstract class Piece {
 
     public abstract ArrayList<ArrayList<Position>> validMove();
 
-    public abstract ArrayList<ArrayList<Position>> validKillMove();
+    public ArrayList<ArrayList<Position>> validKillMove(){
+        return validMove();
+    };
 
     public void move(Position position) {
         this.position = position;

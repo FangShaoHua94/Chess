@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+import static game.Board.SIZE;
+import static game.Position.withinBoundary;
+
 public class Rook extends Piece {
 
     private static final String BLACK_ROOK = "/images/blackRook.png";
@@ -25,12 +28,45 @@ public class Rook extends Piece {
 
     @Override
     public ArrayList<ArrayList<Position>> validMove() {
-        return null;
-    }
+        ArrayList<ArrayList<Position>> positions = new ArrayList<>();
 
-    @Override
-    public ArrayList<ArrayList<Position>> validKillMove() {
-        return null;
+        // up
+        ArrayList<Position> position = new ArrayList<>();
+        Position targetPosition = getPosition().up();
+        while (withinBoundary(targetPosition)) {
+            position.add(targetPosition.duplicate());
+            targetPosition = targetPosition.up();
+        }
+        positions.add(position);
+
+        // down
+        position = new ArrayList<>();
+        targetPosition = getPosition().down();
+        while (withinBoundary(targetPosition)) {
+            position.add(targetPosition.duplicate());
+            targetPosition = targetPosition.down();
+        }
+        positions.add(position);
+
+        // left
+        position = new ArrayList<>();
+        targetPosition = getPosition().left();
+        while (withinBoundary(targetPosition)) {
+            position.add(targetPosition.duplicate());
+            targetPosition = targetPosition.left();
+        }
+        positions.add(position);
+
+        // right
+        position = new ArrayList<>();
+        targetPosition = getPosition().right();
+        while (withinBoundary(targetPosition)) {
+            position.add(targetPosition.duplicate());
+            targetPosition = targetPosition.right();
+        }
+        positions.add(position);
+
+        return positions;
     }
 
     @Override

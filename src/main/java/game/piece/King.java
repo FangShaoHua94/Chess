@@ -43,11 +43,6 @@ public class King extends Piece {
     }
 
     @Override
-    public ArrayList<ArrayList<Position>> validKillMove() {
-        return validMove();
-    }
-
-    @Override
     public String toString() {
         return "K";
     }
