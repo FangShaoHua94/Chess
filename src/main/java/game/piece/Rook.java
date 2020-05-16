@@ -15,10 +15,10 @@ public class Rook extends Piece {
         super(image, color, position);
     }
 
-    public static Rook spawnRook(Position position,Color color){
-        if(color.equals(Color.BLACK)){
+    public static Rook spawnRook(Position position, Color color) {
+        if (color.equals(Color.BLACK)) {
             return new Rook(new Image(Rook.class.getResourceAsStream(BLACK_ROOK)), color, position);
-        }else{
+        } else {
             return new Rook(new Image(Rook.class.getResourceAsStream(WHITE_ROOK)), color, position);
         }
     }
@@ -34,7 +34,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "R";
     }
 }

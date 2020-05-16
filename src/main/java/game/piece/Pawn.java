@@ -19,10 +19,10 @@ public class Pawn extends Piece {
         super(image, color, position);
     }
 
-    public static Pawn spawnPawn(Position position, Color color){
-        if(color.equals(Color.BLACK)){
+    public static Pawn spawnPawn(Position position, Color color) {
+        if (color.equals(Color.BLACK)) {
             return new Pawn(new Image(Pawn.class.getResourceAsStream(BLACK_PAWN)), color, position);
-        }else{
+        } else {
             return new Pawn(new Image(Pawn.class.getResourceAsStream(WHITE_PAWN)), color, position);
         }
     }
@@ -32,11 +32,11 @@ public class Pawn extends Piece {
         ArrayList<ArrayList<Position>> positions = new ArrayList<>();
         ArrayList<Position> position = new ArrayList<>();
 
-        if(withinBoundary(getPosition().by(getColor()))){
+        if (withinBoundary(getPosition().by(getColor()))) {
             position.add(getPosition().by(getColor()));
         }
 
-        if(isFirstMove && withinBoundary(getPosition().by(getColor()).by(getColor()))){
+        if (isFirstMove && withinBoundary(getPosition().by(getColor()).by(getColor()))) {
             position.add(getPosition().by(getColor()).by(getColor()));
         }
         positions.add(position);
@@ -48,11 +48,11 @@ public class Pawn extends Piece {
         ArrayList<ArrayList<Position>> positions = new ArrayList<>();
         ArrayList<Position> position = new ArrayList<>();
 
-        if(withinBoundary(getPosition().by(getColor()).left())){
+        if (withinBoundary(getPosition().by(getColor()).left())) {
             position.add(getPosition().by(getColor()).left());
         }
 
-        if(withinBoundary(getPosition().by(getColor()).right())){
+        if (withinBoundary(getPosition().by(getColor()).right())) {
             position.add(getPosition().by(getColor()).right());
         }
         positions.add(position);
@@ -61,12 +61,12 @@ public class Pawn extends Piece {
 
     @Override
     public void move(Position position) {
-        isFirstMove=false;
+        isFirstMove = false;
         super.move(position);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "P";
     }
 }

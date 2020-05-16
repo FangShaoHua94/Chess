@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+import static game.Position.withinBoundary;
+
 public class King extends Piece {
 
     private static final String BLACK_KING = "/images/blackKing.png";
@@ -15,26 +17,38 @@ public class King extends Piece {
         super(image, color, position);
     }
 
-    public static King spawnKing(Position position,Color color){
-        if(color.equals(Color.BLACK)){
+    public static King spawnKing(Position position, Color color) {
+        if (color.equals(Color.BLACK)) {
             return new King(new Image(King.class.getResourceAsStream(BLACK_KING)), color, position);
-        }else{
+        } else {
             return new King(new Image(King.class.getResourceAsStream(WHITE_KING)), color, position);
         }
     }
 
     @Override
     public ArrayList<ArrayList<Position>> validMove() {
-        return null;
+        ArrayList<ArrayList<Position>> positions = new ArrayList<>();
+        ArrayList<Position> position = new ArrayList<>();
+        int row=getPosition().getRow();
+        int col=getPosition().getCol();
+        for(int i=row-1;i<=row+1;i++){
+            for(int j=col-1;j<=col+1;j++){
+                if(!(i==row && j==col) && withinBoundary(i,j)){
+                    position.add(new Position(i,j));
+                }
+            }
+        }
+        positions.add(position);
+        return positions;
     }
 
     @Override
     public ArrayList<ArrayList<Position>> validKillMove() {
-        return null;
+        return validMove();
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "K";
     }
 }

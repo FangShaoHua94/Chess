@@ -34,16 +34,18 @@ public abstract class Piece {
 
     public abstract ArrayList<ArrayList<Position>> validKillMove();
 
-    public void move(Position position){
-        this.position=position;
-    };
+    public void move(Position position) {
+        this.position = position;
+    }
 
-    public boolean sameColor(Color color){
+    ;
+
+    public boolean sameColor(Color color) {
         return this.color.equals(color);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "null";
     }
 }

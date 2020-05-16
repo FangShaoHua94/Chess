@@ -22,32 +22,32 @@ public class Position {
         return col;
     }
 
-    public Position up(){
-        return new Position(row-1,col);
+    public Position up() {
+        return new Position(row - 1, col);
     }
 
-    public Position down(){
-        return new Position(row+1,col);
+    public Position down() {
+        return new Position(row + 1, col);
     }
 
-    public Position left(){
-        return new Position(row,col-1);
+    public Position left() {
+        return new Position(row, col - 1);
     }
 
-    public Position right(){
-        return new Position(row,col+1);
+    public Position right() {
+        return new Position(row, col + 1);
     }
 
-    public Position by(Color color){
-        if(color.equals(Color.BLACK)){
+    public Position by(Color color) {
+        if (color.equals(Color.BLACK)) {
             return down();
-        }else{
+        } else {
             return up();
         }
     }
 
-    public Position duplicate(){
-        return new Position(row,col);
+    public Position duplicate() {
+        return new Position(row, col);
     }
 
     public static boolean withinBoundary(int row, int col) {
@@ -55,7 +55,7 @@ public class Position {
     }
 
     public static boolean withinBoundary(Position position) {
-        return withinBoundary(position.getRow(),position.getCol());
+        return withinBoundary(position.getRow(), position.getCol());
     }
 
 

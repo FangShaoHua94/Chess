@@ -17,10 +17,10 @@ public class Bishop extends Piece {
         super(image, color, position);
     }
 
-    public static Bishop spawnBishop(Position position,Color color){
-        if(color.equals(Color.BLACK)){
+    public static Bishop spawnBishop(Position position, Color color) {
+        if (color.equals(Color.BLACK)) {
             return new Bishop(new Image(Bishop.class.getResourceAsStream(BLACK_BISHOP)), color, position);
-        }else{
+        } else {
             return new Bishop(new Image(Bishop.class.getResourceAsStream(WHITE_BISHOP)), color, position);
         }
     }
@@ -31,33 +31,33 @@ public class Bishop extends Piece {
 
         ArrayList<Position> position = new ArrayList<>();
         Position targetPosition = getPosition().up().left();
-        while(withinBoundary(targetPosition)){
+        while (withinBoundary(targetPosition)) {
             position.add(targetPosition.duplicate());
-            targetPosition=targetPosition.up().left();
+            targetPosition = targetPosition.up().left();
         }
         positions.add(position);
 
         position = new ArrayList<>();
         targetPosition = getPosition().up().right();
-        while(withinBoundary(targetPosition)){
+        while (withinBoundary(targetPosition)) {
             position.add(targetPosition.duplicate());
-            targetPosition=targetPosition.up().right();
+            targetPosition = targetPosition.up().right();
         }
         positions.add(position);
 
         position = new ArrayList<>();
         targetPosition = getPosition().down().left();
-        while(withinBoundary(targetPosition)){
+        while (withinBoundary(targetPosition)) {
             position.add(targetPosition.duplicate());
-            targetPosition=targetPosition.down().left();
+            targetPosition = targetPosition.down().left();
         }
         positions.add(position);
 
         position = new ArrayList<>();
         targetPosition = getPosition().down().right();
-        while(withinBoundary(targetPosition)){
+        while (withinBoundary(targetPosition)) {
             position.add(targetPosition.duplicate());
-            targetPosition=targetPosition.down().right();
+            targetPosition = targetPosition.down().right();
         }
         positions.add(position);
         return positions;
@@ -69,7 +69,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "B";
     }
 

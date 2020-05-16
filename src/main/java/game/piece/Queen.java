@@ -15,10 +15,10 @@ public class Queen extends Piece {
         super(image, color, position);
     }
 
-    public static Queen spawnQueen(Position position,Color color){
-        if(color.equals(Color.BLACK)){
+    public static Queen spawnQueen(Position position, Color color) {
+        if (color.equals(Color.BLACK)) {
             return new Queen(new Image(Queen.class.getResourceAsStream(BLACK_QUEEN)), color, position);
-        }else{
+        } else {
             return new Queen(new Image(Queen.class.getResourceAsStream(WHITE_QUEEN)), color, position);
         }
     }
@@ -35,7 +35,7 @@ public class Queen extends Piece {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Q";
     }
 }

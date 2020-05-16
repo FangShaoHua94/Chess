@@ -15,10 +15,10 @@ public class Knight extends Piece {
         super(image, color, position);
     }
 
-    public static Knight spawnKnight(Position position,Color color){
-        if(color.equals(Color.BLACK)){
+    public static Knight spawnKnight(Position position, Color color) {
+        if (color.equals(Color.BLACK)) {
             return new Knight(new Image(Knight.class.getResourceAsStream(BLACK_KNIGHT)), color, position);
-        }else{
+        } else {
             return new Knight(new Image(Knight.class.getResourceAsStream(WHITE_KNIGHT)), color, position);
         }
     }
@@ -34,7 +34,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "H";
     }
 }
